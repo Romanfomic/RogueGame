@@ -11,8 +11,9 @@ function Game() {
   this.enemies = [];    // Информация о противниках
   this.heroRow = 0;     // Координата X героя
   this.heroCol = 0;     // Координата Y героя
-  this.power = 1;
-  this.hp = 10;
+  this.power = 1;       // Сила героя
+  this.hp = 5;          // Здоровье героя
+  this.initialHP = this.hp;
   this.bindEventListeners();
   setInterval(() => {
     this.moveEnemies();
@@ -192,13 +193,25 @@ Game.prototype.bindEventListeners = function() {
       case 'w':
         self.moveHero(-1, 0);
         break;
+      case 'ц':
+        self.moveHero(-1, 0);
+        break;
       case 'a':
+        self.moveHero(0, -1);
+        break;
+      case 'ф':
         self.moveHero(0, -1);
         break;
       case 's':
         self.moveHero(1, 0);
         break;
+      case 'ы':
+        self.moveHero(1, 0);
+        break;
       case 'd':
+        self.moveHero(0, 1);
+        break;
+      case 'в':
         self.moveHero(0, 1);
         break;
       case ' ':
@@ -349,7 +362,7 @@ Game.prototype.renderMap = function() {
         tile.classList.add('tileP')     //Добавление героя
         let health = document.createElement('div');
         health.className = 'health';
-        let heroHP = this.hp * 100 / 10;
+        let heroHP = this.hp * 100 / this.initialHP;
         health.style.width = heroHP + '%';
         tile.appendChild(health);
       }
