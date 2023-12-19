@@ -9,6 +9,7 @@
 function Game() {
   this.map = [];        // Информация о карте
   this.enemies = [];    // Информация о противниках
+  this.deadEnemies = 0;
   this.heroRow = 0;     // Координата X героя
   this.heroCol = 0;     // Координата Y героя
   this.power = 1;       // Сила героя
@@ -18,6 +19,9 @@ function Game() {
   setInterval(() => {
     this.moveEnemies();
     this.renderMap();
+    if(this.hp <= 0) {
+      location.reload(true); //Перезагрузка уровня после поражения
+    }
   }, 1000);
 }
 
@@ -272,6 +276,11 @@ Game.prototype.attackEnemy = function(row, col) {
       if (enemy.hp <= 0) {
         this.enemies = this.enemies.filter(e => e !== enemy);
         this.map[row][col] = 0;
+        this.deadEnemies++;
+        console.log(this.deadEnemies);
+        if(this.deadEnemies == 10) {
+          location.reload(true); //Перезагрузка уровня после победы
+        }
       }
     }
   }
@@ -295,6 +304,7 @@ Game.prototype.moveEnemies = function() {
     } else if (enemy.row == this.heroRow && enemy.col - 1 == this.heroCol) {
       this.hp--;
     }
+    
 
     // Генерируем случайное направление движения (0 - вверх, 1 - вправо, 2 - вниз, 3 - влево)
     const direction = Math.floor(Math.random() * 4);
